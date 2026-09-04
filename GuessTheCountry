@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct Country {
+    string name;
+    string continent;
+};
+
+// Helper function to lowercase strings
+string toLower(string s) {
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    return s;
+}
+
+int main() {
+    srand(time(0));
+
+    // Full list of Asia + Europe countries
+    vector<Country> countries = {
+        // Asia (49)
+        {"Afghanistan","Asia"},{"Armenia","Asia"},{"Azerbaijan","Asia"},{"Bahrain","Asia"},
+        {"Bangladesh","Asia"},{"Bhutan","Asia"},{"Brunei","Asia"},{"Cambodia","Asia"},
+        {"China","Asia"},{"Cyprus","Asia/Europe"},{"Georgia","Asia/Europe"},{"India","Asia"},
+        {"Indonesia","Asia"},{"Iran","Asia"},{"Iraq","Asia"},{"Israel","Asia"},
+        {"Japan","Asia"},{"Jordan","Asia"},{"Kazakhstan","Asia/Europe"},{"Kuwait","Asia"},
+        {"Kyrgyzstan","Asia"},{"Laos","Asia"},{"Lebanon","Asia"},{"Malaysia","Asia"},
+        {"Maldives","Asia"},{"Mongolia","Asia"},{"Myanmar","Asia"},{"Nepal","Asia"},
+        {"North Korea","Asia"},{"Oman","Asia"},{"Pakistan","Asia"},{"Palestine","Asia"},
+        {"Philippines","Asia"},{"Qatar","Asia"},{"Saudi Arabia","Asia"},{"Singapore","Asia"},
+        {"South Korea","Asia"},{"Sri Lanka","Asia"},{"Syria","Asia"},{"Tajikistan","Asia"},
+        {"Thailand","Asia"},{"Timor-Leste","Asia"},{"Turkey","Asia/Europe"},
+        {"Turkmenistan","Asia"},{"UAE","Asia"},{"Uzbekistan","Asia"},{"Vietnam","Asia"},
+        {"Yemen","Asia"},
+        // Europe (44)
+        {"Albania","Europe"},{"Andorra","Europe"},{"Austria","Europe"},{"Belarus","Europe"},
+        {"Belgium","Europe"},{"Bosnia and Herzegovina","Europe"},{"Bulgaria","Europe"},
+        {"Croatia","Europe"},{"Czech Republic","Europe"},{"Denmark","Europe"},
+        {"Estonia","Europe"},{"Finland","Europe"},{"France","Europe"},{"Germany","Europe"},
+        {"Greece","Europe"},{"Hungary","Europe"},{"Iceland","Europe"},{"Ireland","Europe"},
+        {"Italy","Europe"},{"Kosovo","Europe"},{"Latvia","Europe"},{"Liechtenstein","Europe"},
+        {"Lithuania","Europe"},{"Luxembourg","Europe"},{"Malta","Europe"},{"Moldova","Europe"},
+        {"Monaco","Europe"},{"Montenegro","Europe"},{"Netherlands","Europe"},
+        {"North Macedonia","Europe"},{"Norway","Europe"},{"Poland","Europe"},
+        {"Portugal","Europe"},{"Romania","Europe"},{"Russia","Europe/Asia"},
+        {"San Marino","Europe"},{"Serbia","Europe"},{"Slovakia","Europe"},
+        {"Slovenia","Europe"},{"Spain","Europe"},{"Sweden","Europe"},
+        {"Switzerland","Europe"},{"Ukraine","Europe"},{"United Kingdom","Europe"},
+        {"Vatican City","Europe"}
+    };
+
+    Country secret = countries[rand() % countries.size()];
+    string guess;
+    int attempts = 0, maxAttempts = 5;
+
+    cout << "=== Guess the Country Game (Asia & Europe) ===" << endl;
+    cout << "You have " << maxAttempts << " attempts to guess!" << endl;
+
+    while (attempts < maxAttempts) {
+        cout << "\nHint: The country is in " << secret.continent << endl;
+        cout << "Your guess: ";
+        getline(cin, guess);
+        attempts++;
+
+        if (toLower(guess) == toLower(secret.name)) {
+            cout << "\n🎉 Correct! The country was " << secret.name << "." << endl;
+            cout << "You got it in " << attempts << " attempt(s)." << endl;
+            break;
+        } else {
+            cout << "❌ Wrong guess. Attempts left: " << (maxAttempts - attempts) << endl;
+            cout << "Hint: The country starts with '" << secret.name[0] << "'" << endl;
+        }
+    }
+
+    if (attempts == maxAttempts && toLower(guess) != toLower(secret.name)) {
+        cout << "\n💡 Out of attempts! The country was " << secret.name << "." << endl;
+    }
+
+    return 0;
+}
